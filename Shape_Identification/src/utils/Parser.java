@@ -14,8 +14,8 @@ public class Parser {
 	private Dictionary identityGrammar;
 	
 	public Parser(){
-		imgGrammar = new Dictionary();
-		identityGrammar = new Dictionary();
+		imgGrammar = new Dictionary("");
+		identityGrammar = new Dictionary("");
 	}
 	
 	

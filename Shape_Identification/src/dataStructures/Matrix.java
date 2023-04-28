@@ -7,6 +7,8 @@ package dataStructures;
 import java.util.ArrayList;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import utils.IDUtils;
+import utils.ImageUtils;
 
 /**
  *
@@ -15,12 +17,17 @@ import org.opencv.core.Mat;
 public class Matrix {
 	
 	private ArrayList<ArrayList<ArrayList<Double>> > data;
+	private ArrayList<Byte> ID;
+	private Mat matPrimitive;
 	
 	public Matrix(){
-		data = new ArrayList<>();
+		this.data = new ArrayList<>();
+		this.ID = new ArrayList<>();
+		this.matPrimitive = new Mat();
 	}
 
 	public void setMatrix(Mat imread0) {
+		this.matPrimitive = imread0;
 		ArrayList<Mat> channels = new ArrayList<>();
 		Core.split(imread0, channels);
 		double[] channelData; 
@@ -45,6 +52,14 @@ public class Matrix {
 			}
 			data.add(auxArray2);
 		}
+	}
+
+	public void setID(ArrayList<Byte> bytes) {
+		this.ID = bytes;
+	}
+
+	public void printImg() {
+		ImageUtils.showImg(this.matPrimitive, IDUtils.toString(ID));
 	}
 		
 	

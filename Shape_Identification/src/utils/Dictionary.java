@@ -6,7 +6,13 @@ package utils;
 
 import config.ConfigFile;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -20,32 +26,38 @@ import org.dom4j.io.SAXReader;
  */
 public class Dictionary {
 	
-	private HashMap<String,Integer[]> pairs;
+	private HashMap<String,ArrayList<Byte>> pairs;
 	private String category;
+	private HashMap<String,Byte> keyWords;
 	
 	public Dictionary(String category0){
 		this.category = category0;
-		this.pairs = getDictConfig();
+		this.pairs = new HashMap<>();
+		this.keyWords = new HashMap<>();
 	}
 
-	private HashMap<String, Integer[]> getDictConfig() {
-		String dictFile = ConfigFile.dictFiles.get(this.category);
-		return extractDict(dictFile);
-	}
-
-	private HashMap<String, Integer[]> extractDict(String dictFile) {
-		try{
-			File inputFile = new File(dictFile);
-			SAXReader reader = new SAXReader();
-			Document document = reader.read( inputFile );
-			
-			Element root = document.getRootElement();
-			if(root.getText().equals(ConfigFile.XML_DictRoot.get(this.category))){
-				
-			}
-			
-			List<Node> nodes = 
+	public boolean add(String name0, ArrayList<Byte> id0){
+		if(pairs.containsKey(name0)){
+			return false;
 		}
+		pairs.put(name0, id0);
+		return true;
+	}
+	
+	public void setKeyWords(HashMap<String,Byte> keyWords0){
+		keyWords = keyWords0;
+	}
+	
+	public ArrayList<Byte> getKeyBytes(String rawName0){
+		ArrayList<Byte> bytes = new ArrayList<>();
+		Object[] orderKeyWords = this.keyWords.keySet().toArray();
+		Arrays.sort(orderKeyWords);
+		for(Object namePart : orderKeyWords){
+			if(rawName0.contains(namePart.toString())){
+				bytes.add(this.keyWords.get(namePart));
+			}
+		}
+		return bytes;
 	}
 	
 }
