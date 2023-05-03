@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import org.opencv.imgcodecs.Imgcodecs;
 import dataStructures.AreaData;
-import dataStructures.Matrix;
+import dataStructures.Activation;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class V1 {
 	private ArrayList<String> imgNames;
 	private Iterator currentImg;
 	private String rootFile;
-	private ArrayList<Matrix> matrices;
+	private ArrayList<Activation> activations;
 	private Dictionary dict;
 	private final HashMap<String, Byte> keyWords;
 
@@ -36,7 +36,7 @@ public class V1 {
 		currentImg = imgNames.iterator();
 		storage = new AreaData("V1");
 		rootFile = "/home/axeladn/Documents/Tesis_Doctorado/Preprocessed_DataSet/DataSet4/V1/";
-		matrices = new ArrayList<>();
+		activations = new ArrayList<>();
 		dict = new Dictionary("V1");
 
 		keyWords = new HashMap<>();
@@ -79,22 +79,20 @@ public class V1 {
 			File[] files = currentDir.listFiles();
 			System.out.println(dir);
 			for (File fileName : files) {
-				Matrix currentMatrix = new Matrix();
+				Activation currentMatrix = new Activation();
 				String path = this.rootFile + dir + fileName.getName();
 				System.out.println(path);
 				ArrayList<Byte> bytes = this.dict.getKeyBytes(path);
 				this.dict.add(path, bytes);
 				Mat currentMat = Imgcodecs.imread(path, Imgcodecs.IMREAD_COLOR);
 				currentMat.convertTo(currentMat, CvType.CV_64F);
-				currentMatrix.setMatrix(currentMat);
-				currentMatrix.setID(bytes);
-				matrices.add(currentMatrix);
+				activations.add(currentMatrix);
 				
 			}
 
 		}
 
-		for (Matrix matrix : matrices) {
+		for (Activation matrix : activations) {
 			matrix.printImg();
 		}
 

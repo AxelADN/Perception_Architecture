@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class AreaData {
 	
-	private HashMap<ConfigFile.AreaDataTypes,ArrayList<Matrix>> data;
+	private HashMap<ConfigFile.AreaDataTypes,ArrayList<Activation>> data;
 	private final String currentArea;
 	
 	public AreaData(String area){
@@ -29,17 +29,17 @@ public class AreaData {
 		data = new HashMap<>();
 	}
 	
-	public void add(Matrix matrix0, String type0){
+	public void add(Activation matrix0, String type0){
 		if(!data.containsKey(ConfigFile.AreaDataTypes.valueOf(type0))){
 			Log.error(control.Error.error.AREA_TYPE_NOT_DEFINED,this.getClass().getSimpleName());
 			return;
 		}
-		ArrayList<Matrix> temp = data.get(ConfigFile.AreaDataTypes.valueOf(type0));
+		ArrayList<Activation> temp = data.get(ConfigFile.AreaDataTypes.valueOf(type0));
 		temp.add(matrix0);
 		data.put(ConfigFile.AreaDataTypes.valueOf(type0),temp);
 	}
 	
-	public void set(ArrayList<Matrix> matrices, String type0){
+	public void set(ArrayList<Activation> matrices, String type0){
 		if(!data.containsKey(ConfigFile.AreaDataTypes.valueOf(type0))){
 			Log.error(control.Error.error.AREA_TYPE_NOT_DEFINED,this.getClass().getSimpleName());
 			return;
