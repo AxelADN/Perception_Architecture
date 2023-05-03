@@ -7,6 +7,7 @@ package interfaces;
 /**
  *
  * @author axeladn
+ * @param <T>
  */
 public interface Copyable <T> {
 	

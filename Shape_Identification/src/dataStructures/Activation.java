@@ -6,7 +6,6 @@ package dataStructures;
 
 import interfaces.Copyable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import utils.DataConversion;

@@ -26,26 +26,30 @@ import org.dom4j.io.SAXReader;
  */
 public class Dictionary {
 	
-	private HashMap<String,ArrayList<Byte>> pairs;
-	private String category;
+	private String areaCategory;
 	private HashMap<String,Byte> keyWords;
+	private ArrayList<String> types;
+	private ArrayList<String> subTypes;
 	
-	public Dictionary(String category0){
-		this.category = category0;
-		this.pairs = new HashMap<>();
+	public Dictionary(String areaCategory0){
+		this.areaCategory = areaCategory0;
 		this.keyWords = new HashMap<>();
-	}
-
-	public boolean add(String name0, ArrayList<Byte> id0){
-		if(pairs.containsKey(name0)){
-			return false;
-		}
-		pairs.put(name0, id0);
-		return true;
+		this.subTypes = new ArrayList<>();
+		this.types = new ArrayList<>();
 	}
 	
-	public void setKeyWords(HashMap<String,Byte> keyWords0){
-		keyWords = keyWords0;
+	public void addKeyType(String name0, byte byte0){
+		this.keyWords.put(name0, byte0);
+		this.types.add(name0);
+	}
+	
+	public void addKeySubtype(String name0, byte byte0){
+		this.keyWords.put(name0, byte0);
+		this.subTypes.add(name0);
+	}
+	
+	public ArrayList<String> getTypes(){
+		return (ArrayList<String>) this.types.clone();
 	}
 	
 	public ArrayList<Byte> getKeyBytes(String rawName0){

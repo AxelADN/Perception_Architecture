@@ -6,45 +6,78 @@ package dataStructures;
 
 import config.ConfigFile;
 import control.Log;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 
 /**
  *
  * @author axeladn
  */
 public class AreaData {
-	
-	private HashMap<ConfigFile.AreaDataTypes,ArrayList<Activation>> data;
+
+	private RetinotopicArray retinotopicArray;
+	private RetinotopicMap retinotopicMap;
 	private final String currentArea;
-	
-	public AreaData(String area){
-		if(!ConfigFile.DATA_TYPES_PER_AREA.containsKey(ConfigFile.Areas.valueOf(area))){
-			Log.error(control.Error.error.AREA_NOT_DEFINED,this.getClass().getSimpleName());
-			currentArea = ConfigFile.Areas.DEFAULT_AREA.name();
-			data = new HashMap<>();
+	private String[] typeDirectories;
+	private ArrayList<String> areaTypes;
+	private String dataRootFile;
+	private HashMap<String,File[]> dataFilesTypeMap;
+
+	public AreaData(String area0, ArrayList<String> types0) {
+		if (!ConfigFile.DATA_TYPES_PER_AREA.containsKey(ConfigFile.Areas.valueOf(area0))) {
+			System.out.println("ERROR: This area is not registered! (" + area0 + ")");
+			this.currentArea = ConfigFile.Areas.DEFAULT_AREA.name();
+			this.retinotopicArray = new RetinotopicArray();
+			this.retinotopicMap = new RetinotopicMap();
+			this.areaTypes = new ArrayList<>();
+			this.typeDirectories = new String[0];
 			return;
 		}
-		currentArea = ConfigFile.Areas.valueOf(area).name();
-		data = new HashMap<>();
+		this.currentArea = ConfigFile.Areas.valueOf(area0).name();
+		this.retinotopicArray = new RetinotopicArray();
+		this.retinotopicMap = new RetinotopicMap();
+		this.areaTypes = types0;
 	}
-	
-	public void add(Activation matrix0, String type0){
-		if(!data.containsKey(ConfigFile.AreaDataTypes.valueOf(type0))){
-			Log.error(control.Error.error.AREA_TYPE_NOT_DEFINED,this.getClass().getSimpleName());
-			return;
-		}
-		ArrayList<Activation> temp = data.get(ConfigFile.AreaDataTypes.valueOf(type0));
-		temp.add(matrix0);
-		data.put(ConfigFile.AreaDataTypes.valueOf(type0),temp);
+
+	public void update() {
+		
 	}
-	
-	public void set(ArrayList<Activation> matrices, String type0){
-		if(!data.containsKey(ConfigFile.AreaDataTypes.valueOf(type0))){
-			Log.error(control.Error.error.AREA_TYPE_NOT_DEFINED,this.getClass().getSimpleName());
+
+	public void set(ArrayList<Activation> matrices, String type0) {
+		if (!data.containsKey(ConfigFile.AreaDataTypes.valueOf(type0))) {
+			Log.error(control.Error.error.AREA_TYPE_NOT_DEFINED, this.getClass().getSimpleName());
 			return;
 		}
 		data.put(ConfigFile.AreaDataTypes.valueOf(type0), matrices);
 	}
-	
+
+	public void setPath(String rootFile) {
+		this.dataRootFile = rootFile;
+		File file = new File(rootFile);
+		this.typeDirectories = file.list((File current, String name) -> new File(current, name).isDirectory());
+	}
+
+	public void setDataFileList() {
+		for (String dir : this.typeDirectories) {
+			File currentDir = new File(this.dataRootFile+dir+"/");
+			File[] files = currentDir.listFiles();
+			this.dataFilesTypeMap.put(dir, files);
+		}
+	}
+
+	public void extractDataFromFileList() {
+		String path;
+		Mat mat;
+		for(String dirType : this.dataFilesTypeMap.keySet()){
+			for(File dataFile : this.dataFilesTypeMap.get(dirType)){
+				path = this.dataRootFile + dirType + "/" + dataFile.getName();
+				mat = Imgcodecs.imread(path, Imgcodecs.IMREAD_COLOR????????);
+			}
+		}
+	}
+
 }

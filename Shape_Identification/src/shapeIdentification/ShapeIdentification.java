@@ -25,7 +25,7 @@ public class ShapeIdentification {
 
 		//ImageUtils.showImg(Mat.zeros(new Size(200,200), CvType.CV_8U), "01010101");
 		V1 v1 = new V1();
-		v1.Retrieval();
+		v1.Populate();
 
 	}
 

@@ -4,6 +4,7 @@
  */
 package dataStructures;
 
+import interfaces.Copyable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
  *
  * @author axeladn
  */
-public class Identificator {
+public class Identificator implements Copyable {
 
 	public static long UID = 0;
 	
@@ -22,6 +23,17 @@ public class Identificator {
 		Identificator.UID+=1;
 		this.id = Identificator.UID;
 		this.idByte = (ArrayList<Byte>) idByte0.clone();
+	}
+	
+	public Identificator(long id0, ArrayList<Byte> idByte0){
+		this.idByte = (ArrayList<Byte>) idByte0.clone();
+		this.id = id0;
+	}
+
+	@Override
+	public Identificator copy() {
+		Identificator identificator = new Identificator(this.id,this.idByte);
+		return identificator;
 	}
 	
 }

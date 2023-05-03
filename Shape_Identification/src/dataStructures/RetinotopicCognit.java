@@ -10,12 +10,12 @@ package dataStructures;
  */
 public class RetinotopicCognit {
 	
-	private Identificator identicator;
+	private Identificator identificator;
 	private Activation activation;
 	
 	public RetinotopicCognit(Identificator identificator0, Activation activation0){
-		this.activation = activation.copy();
-		this.identicator = identificator.copy();
+		this.activation = activation0.copy();
+		this.identificator = identificator0.copy();
 	}
 	
 }

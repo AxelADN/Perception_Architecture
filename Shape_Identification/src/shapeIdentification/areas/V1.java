@@ -29,68 +29,52 @@ public class V1 {
 	private String rootFile;
 	private ArrayList<Activation> activations;
 	private Dictionary dict;
-	private final HashMap<String, Byte> keyWords;
 
 	public V1() {
 		imgNames = new ArrayList<>();
 		currentImg = imgNames.iterator();
-		storage = new AreaData("V1");
+		
 		rootFile = "/home/axeladn/Documents/Tesis_Doctorado/Preprocessed_DataSet/DataSet4/V1/";
 		activations = new ArrayList<>();
 		dict = new Dictionary("V1");
 
-		keyWords = new HashMap<>();
-		keyWords.put("ComplexCells", (byte) 1);
-		keyWords.put("DoubleOpponent", (byte) 2);
-		keyWords.put("HyperComplexCells", (byte) 3);
-		keyWords.put("MergedHyperComplexCells", (byte) 4);
-		keyWords.put("SimpleCells", (byte) 5);
-		keyWords.put("Or_0", (byte) 6);
-		keyWords.put("Or_1", (byte) 7);
-		keyWords.put("Or_2", (byte) 8);
-		keyWords.put("Or_3", (byte) 9);
-		keyWords.put("Bank_0", (byte) 11);
-		keyWords.put("Bank0", (byte) 11);
-		keyWords.put("Eye_0", (byte) 12);
-		keyWords.put("Dp", (byte) 13);
-		keyWords.put("Kp", (byte) 14);
-		keyWords.put("Lp", (byte) 15);
-		keyWords.put("Type_0", (byte) 16);
-		keyWords.put("Type_1", (byte) 17);
-		keyWords.put("Phase1", (byte) 18);
-		keyWords.put("Phase2", (byte) 19);
-
-		dict.setKeyWords(keyWords);
+		dict.addKeyType("ComplexCells", (byte) 1);
+		dict.addKeyType("DoubleOpponent", (byte) 2);
+		dict.addKeyType("HyperComplexCells", (byte) 3);
+		dict.addKeyType("MergedHyperComplexCells", (byte) 4);
+		dict.addKeyType("SimpleCells", (byte) 5);
+		dict.addKeySubtype("Or_0", (byte) 6);
+		dict.addKeySubtype("Or_1", (byte) 7);
+		dict.addKeySubtype("Or_2", (byte) 8);
+		dict.addKeySubtype("Or_3", (byte) 9);
+		dict.addKeySubtype("Bank_0", (byte) 11);
+		dict.addKeySubtype("Bank0", (byte) 11);
+		dict.addKeySubtype("Eye_0", (byte) 12);
+		dict.addKeySubtype("Dp", (byte) 13);
+		dict.addKeySubtype("Kp", (byte) 14);
+		dict.addKeySubtype("Lp", (byte) 15);
+		dict.addKeySubtype("Type_0", (byte) 16);
+		dict.addKeySubtype("Type_1", (byte) 17);
+		dict.addKeySubtype("Phase1", (byte) 18);
+		dict.addKeySubtype("Phase2", (byte) 19);
 		
-
+		storage = new AreaData("V1", dict.getTypes());
 	}
 
-	public void Retrieval() {
-		File file = new File(rootFile);
-		String[] directories = file.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File current, String name) {
-				return new File(current, name).isDirectory();
-			}
-		});
-		for (String dir : directories) {
-			dir = dir+"/";
-			File currentDir = new File(this.rootFile+dir);
-			File[] files = currentDir.listFiles();
-			System.out.println(dir);
+	public void Populate() {
+		storage.setPath(this.rootFile);
+		storage.setDataFileList();
+		storage.extractDataFromFileList();
 			for (File fileName : files) {
-				Activation currentMatrix = new Activation();
+				Activation currentActivation = new Activation();
 				String path = this.rootFile + dir + fileName.getName();
 				System.out.println(path);
 				ArrayList<Byte> bytes = this.dict.getKeyBytes(path);
 				this.dict.add(path, bytes);
 				Mat currentMat = Imgcodecs.imread(path, Imgcodecs.IMREAD_COLOR);
 				currentMat.convertTo(currentMat, CvType.CV_64F);
-				activations.add(currentMatrix);
-				
+				activations.add(currentActivation);
 			}
-
-		}
 
 		for (Activation matrix : activations) {
 			matrix.printImg();
