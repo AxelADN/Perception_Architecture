@@ -18,14 +18,17 @@ public class RetinotopicMatrix {
 
     public RetinotopicMatrix(Identificator preIdentificator0, Activation activation0) {
         this.matrix = new Array2D<>();
-        this.integrate(preIdentificator0, activation0);
+        this.merge(preIdentificator0, activation0);
     }
 
-    private void integrate(Identificator preIdentificator0, Activation activation0){
+    private void merge(Identificator preIdentificator0, Activation activation0){
         Reference2D size = activation0.size();
-        for(int row = 0; row<activation0.rows(); row+=1){
-            for(int col =0; col<activation0.cols(); col+=1){
-                
+        Identificator identificator;
+        double value;
+        for(int row = 0; row<size.getRows(); row+=1){
+            for(int col =0; col<size.getCols(); col+=1){
+                value = activation0.getValue(col,row);
+                identificator = new Identificator(value,col,row,activation0.getDepthIndex());
             }
         }
     }

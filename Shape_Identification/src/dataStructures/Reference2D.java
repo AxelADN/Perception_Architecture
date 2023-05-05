@@ -18,6 +18,11 @@ public class Reference2D {
         this.referenceY = y0;
     }
     
+    public Reference2D(int[] xy0){
+        this.referenceX = xy0[0];
+        this.referenceY = xy0[1];
+    }
+    
     public int[] getArray(){
         return new int[]{this.referenceX,this.referenceY};
     }

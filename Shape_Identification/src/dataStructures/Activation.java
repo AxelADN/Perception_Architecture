@@ -111,15 +111,22 @@ public class Activation implements Copyable {
         HashMap<Integer, Array3D<Double>> auxArray3D = this.activation.split();
         Activation subActivation;
         HashSet<Activation> subActivations = new HashSet<>();
-        for(int channel : auxArray3D.keySet()){
-            subActivation = new Activation(channel,auxArray3D.get(channel));
+        for (int channel : auxArray3D.keySet()) {
+            subActivation = new Activation(channel, auxArray3D.get(channel));
             subActivations.add(subActivation);
         }
         return subActivations;
     }
 
-    
     public Reference2D size() {
-        return new Reference2D(this.activation.size())
+        return new Reference2D(this.activation.size());
+    }
+
+    public double getValue(int col0, int row0) {
+        return this.activation.get(new int[]{col0, row0, this.channels});
+    }
+
+    public int getDepthIndex() {
+        return this.channels;
     }
 }

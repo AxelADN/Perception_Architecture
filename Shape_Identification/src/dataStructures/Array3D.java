@@ -5,9 +5,7 @@
 package dataStructures;
 
 import interfaces.Copyable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  *
@@ -21,7 +19,7 @@ public class Array3D<T> implements Copyable {
     private int depth;
     private int depthReference;
 
-    public Array3D(int rows0, int cols0, int depth0) {
+    public Array3D(int cols0, int rows0, int depth0) {
         this.array3D = new HashMap<>();
         this.cols = cols0;
         this.rows = rows0;
@@ -30,7 +28,7 @@ public class Array3D<T> implements Copyable {
     }
 
     //for Copyable
-    public Array3D(HashMap<Integer, Array2D> array3D0, int rows0, int cols0, int depth0, int depthReference0) {
+    public Array3D(HashMap<Integer, Array2D> array3D0, int cols0, int rows0, int depth0, int depthReference0) {
         this.array3D = new HashMap<>();
         for (int index : array3D0.keySet()) {
             this.array3D.put(index, array3D0.get(index).copy());
@@ -70,7 +68,11 @@ public class Array3D<T> implements Copyable {
     }
     
     public void add(int depth0, Array2D<T> array2D){
-        this.array3D.put(depth, array2D);
+        this.depth = depth0+1;
+        int[] size = array2D.size();
+        this.cols = size[0];
+        this.rows = size[1];
+        this.array3D.put(depth0, array2D);
     }
 
     public T get(int[] index) {
@@ -114,7 +116,6 @@ public class Array3D<T> implements Copyable {
 
     public HashMap<Integer,Array3D<Double>> split() {
         HashMap<Integer, Array3D<Double>> auxArrayMap = new HashMap<>();
-        Array2D<Double> auxArray2D;
         Array3D<Double> auxArray3D;
         for(int i : this.array3D.keySet()){
             auxArray3D = new Array3D<>();
@@ -122,6 +123,18 @@ public class Array3D<T> implements Copyable {
             auxArrayMap.put(i, auxArray3D);
         }
         return auxArrayMap;
+    }
+    
+    public int[] size(){
+        return new int[] {this.cols, this.rows};
+    }
+    
+    public int depthIndex(){
+        return this.depth-1;
+    }
+    
+    public int depthSize(){
+        return this.array3D.keySet().size();
     }
 
 }

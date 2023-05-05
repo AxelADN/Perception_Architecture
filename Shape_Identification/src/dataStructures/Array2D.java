@@ -79,5 +79,9 @@ public class Array2D <T> implements Copyable{
 	public Array2D<T> copy() {
 		return new Array2D<>(this.array2D, this.cols, this.rows);
 	}
+
+    public int[] size() {
+        return new int[] {this.cols,this.rows};
+    }
 	
 }
