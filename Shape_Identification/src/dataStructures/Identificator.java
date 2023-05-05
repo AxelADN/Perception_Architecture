@@ -6,7 +6,8 @@ package dataStructures;
 
 import interfaces.Copyable;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
+import utils.Dictionary;
 
 /**
  *
@@ -17,17 +18,29 @@ public class Identificator implements Copyable {
 	public static long UID = 0;
 	
 	private long id;
-	private ArrayList<Byte> idByte;
+	private HashSet<Byte> idByte;
 	
-	public Identificator(ArrayList<Byte> idByte0){
+	public Identificator(HashSet<Byte> idByte0){
 		Identificator.UID+=1;
 		this.id = Identificator.UID;
-		this.idByte = (ArrayList<Byte>) idByte0.clone();
+		this.idByte = (HashSet<Byte>) idByte0.clone();
 	}
 	
-	public Identificator(long id0, ArrayList<Byte> idByte0){
-		this.idByte = (ArrayList<Byte>) idByte0.clone();
+	public Identificator(String str0){
+		Identificator.UID+=1;
+		this.id = Identificator.UID;
+		this.idByte = Dictionary.parse(str0);
+	}
+	
+	public Identificator(long id0, HashSet<Byte> idByte0){
+		this.idByte = (HashSet<Byte>) idByte0.clone();
 		this.id = id0;
+	}
+
+	Identificator() {
+		Identificator.UID += 1;
+		this.id = Identificator.UID;
+		this.idByte = new HashSet<>();
 	}
 
 	@Override

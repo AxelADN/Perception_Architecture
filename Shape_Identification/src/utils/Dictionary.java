@@ -4,21 +4,10 @@
  */
 package utils;
 
-import config.ConfigFile;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
+import java.util.HashSet;
 
 /**
  *
@@ -26,25 +15,44 @@ import org.dom4j.io.SAXReader;
  */
 public class Dictionary {
 	
-	private String areaCategory;
-	private HashMap<String,Byte> keyWords;
-	private ArrayList<String> types;
-	private ArrayList<String> subTypes;
+	private static final HashMap<String,Byte> keyWords;
+	
+	static {
+		keyWords = new HashMap<>();
+	}
+	
+	public static HashSet<Byte> parse(String str0){
+		HashSet<Byte> bytes = new HashSet<>();
+		Object[] orderedDict = Dictionary.keyWords.keySet().toArray();
+		Arrays.sort(orderedDict);
+		for(Object keyWord : orderedDict){
+			if(str0.contains(keyWord.toString())){
+				bytes.add(Dictionary.keyWords.get(keyWord.toString()));
+			}
+		}
+		return bytes;
+	}
+	
+	
+	
+	
+	private final String areaCategory;
+	private final HashSet<String> types;
+	private final HashSet<String> subTypes;
 	
 	public Dictionary(String areaCategory0){
 		this.areaCategory = areaCategory0;
-		this.keyWords = new HashMap<>();
-		this.subTypes = new ArrayList<>();
-		this.types = new ArrayList<>();
+		this.subTypes = new HashSet<>();
+		this.types = new HashSet<>();
 	}
 	
 	public void addKeyType(String name0, byte byte0){
-		this.keyWords.put(name0, byte0);
+		Dictionary.keyWords.put(name0, byte0);
 		this.types.add(name0);
 	}
 	
 	public void addKeySubtype(String name0, byte byte0){
-		this.keyWords.put(name0, byte0);
+		Dictionary.keyWords.put(name0, byte0);
 		this.subTypes.add(name0);
 	}
 	
@@ -52,16 +60,8 @@ public class Dictionary {
 		return (ArrayList<String>) this.types.clone();
 	}
 	
-	public ArrayList<Byte> getKeyBytes(String rawName0){
-		ArrayList<Byte> bytes = new ArrayList<>();
-		Object[] orderKeyWords = this.keyWords.keySet().toArray();
-		Arrays.sort(orderKeyWords);
-		for(Object namePart : orderKeyWords){
-			if(rawName0.contains(namePart.toString())){
-				bytes.add(this.keyWords.get(namePart));
-			}
-		}
-		return bytes;
+	public String getArea(){
+		return areaCategory;
 	}
 	
 }

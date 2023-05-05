@@ -9,6 +9,7 @@ import control.Log;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -19,8 +20,7 @@ import org.opencv.imgcodecs.Imgcodecs;
  */
 public class AreaData {
 
-	private RetinotopicArray retinotopicArray;
-	private RetinotopicMap retinotopicMap;
+	private HashSet<Matrix> matrices;
 	private final String currentArea;
 	private String[] typeDirectories;
 	private ArrayList<String> areaTypes;
@@ -31,15 +31,11 @@ public class AreaData {
 		if (!ConfigFile.DATA_TYPES_PER_AREA.containsKey(ConfigFile.Areas.valueOf(area0))) {
 			System.out.println("ERROR: This area is not registered! (" + area0 + ")");
 			this.currentArea = ConfigFile.Areas.DEFAULT_AREA.name();
-			this.retinotopicArray = new RetinotopicArray();
-			this.retinotopicMap = new RetinotopicMap();
 			this.areaTypes = new ArrayList<>();
 			this.typeDirectories = new String[0];
 			return;
 		}
 		this.currentArea = ConfigFile.Areas.valueOf(area0).name();
-		this.retinotopicArray = new RetinotopicArray();
-		this.retinotopicMap = new RetinotopicMap();
 		this.areaTypes = types0;
 	}
 
@@ -75,7 +71,9 @@ public class AreaData {
 		for(String dirType : this.dataFilesTypeMap.keySet()){
 			for(File dataFile : this.dataFilesTypeMap.get(dirType)){
 				path = this.dataRootFile + dirType + "/" + dataFile.getName();
-				mat = Imgcodecs.imread(path, Imgcodecs.IMREAD_COLOR????????);
+				mat = Imgcodecs.imread(path, Imgcodecs.IMREAD_ANYCOLOR);
+				System.out.println("Ccahnnels: " + mat.channels());
+				matrices.add(new Matrix(path,mat));
 			}
 		}
 	}

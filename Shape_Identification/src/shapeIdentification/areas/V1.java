@@ -29,6 +29,7 @@ public class V1 {
 	private String rootFile;
 	private ArrayList<Activation> activations;
 	private Dictionary dict;
+	
 
 	public V1() {
 		imgNames = new ArrayList<>();

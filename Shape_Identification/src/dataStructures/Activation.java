@@ -11,6 +11,7 @@ import org.opencv.core.Mat;
 import utils.DataConversion;
 import utils.IDUtils;
 import utils.ImageUtils;
+import utils.MultiArray;
 
 /**
  *
@@ -18,90 +19,33 @@ import utils.ImageUtils;
  */
 public class Activation implements Copyable {
 
-	private ArrayList<ArrayList<ArrayList<Double>>> activation3d;
-	private ArrayList<Double> activation1d;
-	private ArrayList<Byte> ID;
+	private Array3D<Double> activation;
 	private Mat matPrimitive;
 	private int channels;
-
-	public Activation() {
-		this.activation3d = new ArrayList<>();
-		this.activation1d = null;
-		this.ID = new ArrayList<>();
-		this.matPrimitive = new Mat();
-		this.channels = 3;
-	}
-
-	public Activation(int channels0) {
-		this();
-		this.channels = channels0;
-		if (this.channels == 1) {
-			this.activation3d = null;
-			this.activation1d = new ArrayList<>();
-		}
+	
+	public Activation(Mat mat0){
+		this.matPrimitive = mat0;
+		this.channels = mat0.channels();
+		this.setActivation();
 	}
 	
-	public Activation(ArrayList<Byte> ID0, Mat matPrimitive0, int channels0, ArrayList<Double> activation1d0, ArrayList<ArrayList<ArrayList<Double>>> activation3d0){
-		this.ID = (ArrayList<Byte>) ID0.clone();
+	//for Copyable
+	public Activation(Mat matPrimitive0, int channels0, Array3D<Double> activation0){
 		this.channels = channels0;
 		this.matPrimitive = matPrimitive0.clone();
-		this.activation1d = (ArrayList<Double>) activation1d0.clone();
-		this.activation3d = new ArrayList<>();
-		ArrayList<ArrayList<Double>> aux2 = new ArrayList<>();
-		ArrayList<Double> aux1;
-		for(ArrayList<ArrayList<Double>> array2 : activation3d0){
-			for(ArrayList<Double> array1 : array2){
-				aux1 = (ArrayList<Double>) array1.clone();
-				aux2.add(aux1);
-			}
-			this.activation3d.add(aux2);
-		}
+		this.activation = activation0.copy();
 	}
-
-	public void setActivation(Mat imread0) {
-		if (this.channels != imread0.channels()) {
-			System.out.println("ERROR: incorrect number of channels -> " + this.channels + "!=" + imread0.channels());
-			return;
-		}
-		this.matPrimitive = imread0;
+	
+	public final void setActivation(){
 		int i;
-		int cols;
-		int rows;
-		if (this.channels == 3) {
-			ArrayList<Mat> auxChannels = new ArrayList<>();
-			Core.split(imread0, auxChannels);
-			double[] channelData;
-			ArrayList<ArrayList<Double>> auxArray2;
-			ArrayList<Double> auxArray1;
-			for (Mat channel : auxChannels) {
-				auxArray2 = new ArrayList<>();
-				channelData = new double[(int) channel.total()];
-				channel.get(0, 0, channelData);
-				cols = channel.cols();
-				rows = channel.rows();
-				for (int row = 0; row < rows; row++) {
-					auxArray1 = new ArrayList<>();
-					for (int col = 0; col < cols; col++) {
-						i = (cols * row) + col;
-						auxArray1.add(channelData[i]);
-					}
-					auxArray2.add(auxArray1);
-				}
-				activation3d.add(auxArray2);
-			}
-		}
-		if (this.channels == 1) {
-			double[] auxData;
-			auxData = new double[(int) imread0.total()];
-			imread0.get(0, 0, auxData);
-			cols = imread0.cols();
-			rows = imread0.rows();
-			for (int row = 0; row < rows; row++) {
-				for (int col = 0; col < cols; col++) {
-					i = (cols * row) + col;
-					this.activation1d.add(auxData[i]);
-				}
-			}
+		int cols = this.matPrimitive.cols();
+		int rows = this.matPrimitive.rows();
+		ArrayList<Mat> splitedMat = new ArrayList<>();
+		Core.split(this.matPrimitive, splitedMat);
+		Array2D<Double> array2D;
+		for(Mat channel : splitedMat){
+			array2D = DataConversion.MatToArray2DDouble(channel);
+			activation.add(array2D);
 		}
 	}
 

@@ -4,6 +4,7 @@
  */
 package utils;
 
+import dataStructures.Array2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -88,6 +89,30 @@ public class DataConversion {
 		ByteBuffer wrapped = ByteBuffer.wrap(data);
 		return wrapped.getLong();
 	}
+	
+	public static Array2D MatToArray2DDouble(Mat mat0){
+		Array2D<Double> array2D =  new Array2D<>(mat0.cols(),mat0.rows());
+		int[] index = new int[2];
+		int i;
+		double[] data = new double[(int)mat0.total()];
+		mat0.get(0, 0, data);
+		for(int row=0; row<mat0.rows(); row+=1){
+			for(int col=0; col<mat0.cols(); col+=1){
+				index[0] = col;
+				index[1] = row;
+				i = (mat0.cols() * row) + col;
+				array2D.add(index, data[i]);
+			}
+		}
+		return array2D;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	public static Mat ByteToMat(byte[] bytes, int cols, int rows, int type) {
 		Mat receivedImg = new Mat(new Size(cols, rows), type);
