@@ -10,9 +10,6 @@ import org.opencv.imgcodecs.Imgcodecs;
 import dataStructures.AreaData;
 import dataStructures.Activation;
 import java.io.File;
-import java.io.FilenameFilter;
-import java.util.Arrays;
-import java.util.HashMap;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import utils.Dictionary;
@@ -66,6 +63,7 @@ public class V1 {
 		storage.setPath(this.rootFile);
 		storage.setDataFileList();
 		storage.extractDataFromFileList();
+                storage.setData();
 			for (File fileName : files) {
 				Activation currentActivation = new Activation();
 				String path = this.rootFile + dir + fileName.getName();

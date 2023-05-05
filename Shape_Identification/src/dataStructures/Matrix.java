@@ -4,6 +4,8 @@
  */
 package dataStructures;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import org.opencv.core.Mat;
 
 /**
@@ -11,19 +13,31 @@ import org.opencv.core.Mat;
  * @author axeladn
  */
 public class Matrix {
-	
-	private Identificator preIdentificator;
-	private RetinotopicArray retinotopicArray;
-	
-	public Matrix(){
-		preIdentificator = new Identificator();
-		retinotopicArray = new RetinotopicArray();
-	}
 
-	public Matrix(String preIdentificatorStr0, Mat mat0) {
-		this. preIdentificator = new Identificator(preIdentificatorStr0);
-		Activation activation = new Activation(mat0);
-		this.retinotopicArray = new RetinotopicArray(this.preIdentificator,activation);
-	}
-	
+    private Identificator preIdentificator;
+    private RetinotopicMatrix retinotopicMatrix;
+    private Activation mainActivation;
+
+    public Matrix() {
+        this.preIdentificator = new Identificator();
+        this.retinotopicMatrix = new RetinotopicMatrix();
+        this.mainActivation = new Activation();
+    }
+
+    public Matrix(String preIdentificatorStr0, Mat mat0) {
+        this.preIdentificator = new Identificator(preIdentificatorStr0);
+        this.mainActivation = new Activation(mat0);
+        this.retinotopicMatrix = new RetinotopicMatrix(this.preIdentificator, this.mainActivation);
+    }
+
+    void setWithMatData(String path0, Mat mat0) {
+        this.preIdentificator = new Identificator(path0);
+        HashSet<Activation> subActivationSet = this.mainActivation.getSubActivations();
+        for (Activation subActivation : subActivationSet) {
+            this.retinotopicMatrix = new RetinotopicMatrix(this.preIdentificator, subActivation);
+            
+        }
+
+    }
+
 }
