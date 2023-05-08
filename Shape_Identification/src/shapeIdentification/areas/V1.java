@@ -64,6 +64,12 @@ public class V1 {
 		storage.setDataFileList();
 		storage.extractDataFromFileList();
                 storage.setData();
+		
+			
+		
+				
+				
+				
 			for (File fileName : files) {
 				Activation currentActivation = new Activation();
 				String path = this.rootFile + dir + fileName.getName();
