@@ -5,10 +5,13 @@
 package dataStructures;
 
 import interfaces.Copyable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import utils.Dictionary;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.DataConversion;
 
 /**
  *
@@ -17,10 +20,22 @@ import org.json.JSONObject;
 public class Identificator implements Copyable {
 
 	public static long UID = 0;
+	public static final String AREA = "AREA";
+	public static final String TYPE = "TYPE";
+	public static final String SUBTYPE = "SUBTYPE";
+	public static final String LOCATION = "LOCATION";
+	public static final String METRIC = "METRIC";
+	public static final String VALUE = "VALUE";
+	private static String X;
+	private static String Y;
+	private static String Z;
+	
+	
+	
 
 	private long id;
-	private JSONObject descriptor;
-	private JSONArray idArray;
+	private HashMap<String,Object> idArray;
+	
 
 	/*public Identificator(HashSet<Byte> idByte0) {
 		Identificator.UID += 1;
@@ -29,31 +44,68 @@ public class Identificator implements Copyable {
 	}*/
 
 	public Identificator(String str0) {
-		Identificator.UID += 1;
-		this.id = Identificator.UID;
-		this.idByte = Dictionary.parse(str0);
+		this();
+		this.idArray.put(Identificator.AREA, Dictionary.parseArea(str0));
+		this.idArray.put(Identificator.TYPE,Dictionary.parseType(str0));
+		this.idArray.put(Identificator.SUBTYPE, Dictionary.parseSubType(str0));
+		
 	}
 
 	//for Copyable
-	public Identificator(long id0, HashSet<Byte> idByte0) {
-		this.idByte = (HashSet<Byte>) idByte0.clone();
+	public Identificator(long id0, HashMap<String,Object> idArray0) {
+		this.idArray = (HashMap<String,Object>) this.idArray.clone();
 		this.id = id0;
 	}
 
 	public Identificator() {
 		Identificator.UID += 1;
 		this.id = Identificator.UID;
-		this.idByte = new HashSet<>();
+		this.idArray = new HashMap<>();
 	}
 
-	public Identificator(double value0, int col0, int row0, int depthIndex0) {
+	public Identificator(int x0, int y0, int z0, double value0, Identificator preIdentification0) {
+		this();
+		HashMap<String,Integer> location = new HashMap<>();
+		location.put(Identificator.X, x0);
+		location.put(Identificator.Y, y0);
+		location.put(Identificator.Z, z0);
+		this.idArray.put(Identificator.LOCATION, location);
+		this.idArray.put(Identificator.VALUE, value0);
+		this.idArray.put(Identificator.AREA, preIdentification0.getArea());
+		this.idArray.put(Identificator.TYPE, preIdentification0.getType());
+		this.idArray.put(Identificator.SUBTYPE, preIdentification0.getSubType());
+	}
+	
+	public HashSet<String> getSubType(){
+		return (HashSet<String>) this.idArray.get(Identificator.SUBTYPE);
+	}
+	
+	public String getType(){
+		return (String) this.idArray.get(Identificator.TYPE);
+	}
+	
+	public String getArea(){
+		return (String) this.idArray.get(Identificator.AREA);
+	}
+	
+	@Override
+	public String toString(){
+		String str = new String();
+		str += this.id + "+";
+		str += this.idArray.get(Identificator.AREA).toString() + "+";
+		str += this.idArray.get(Identificator.TYPE).toString() + "+";
+		str += this.idArray.get(Identificator.SUBTYPE).toString() + "+";
+		str += this.idArray.get(Identificator.LOCATION).toString() + "+";
+		str += this.idArray.get(Identificator.VALUE).toString();
 		
+		return str;
 	}
 
 	@Override
 	public Identificator copy() {
-		Identificator identificator = new Identificator(this.id, this.idByte);
+		Identificator identificator = new Identificator(this.id, this.idArray);
 		return identificator;
 	}
+
 
 }

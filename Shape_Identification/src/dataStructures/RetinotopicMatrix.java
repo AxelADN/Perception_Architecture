@@ -10,27 +10,35 @@ package dataStructures;
  */
 public class RetinotopicMatrix {
 
-    private Array2D<RetinotopicCognit> matrix;
+	private Array2D<RetinotopicCognit> matrix;
+	private Activation activationMatrix;
 
-    public RetinotopicMatrix() {
-        this.matrix = new Array2D<>();
-    }
+	public RetinotopicMatrix() {
+		this.matrix = new Array2D<>();
+		this.activationMatrix = new Activation();
+	}
 
-    public RetinotopicMatrix(Identificator preIdentificator0, Activation activation0) {
-        this.matrix = new Array2D<>();
-        this.merge(preIdentificator0, activation0);
-    }
+	public RetinotopicMatrix(Identificator preIdentificator0, Activation activation0) {
+		this.matrix = new Array2D<>();
+		this.activationMatrix = activation0;
+		this.merge(preIdentificator0, activation0);
+	}
 
-    private void merge(Identificator preIdentificator0, Activation activation0){
-        Reference2D size = activation0.size();
-        Identificator identificator;
-        double value;
-        for(int row = 0; row<size.getRows(); row+=1){
-            for(int col =0; col<size.getCols(); col+=1){
-                value = activation0.getValue(col,row);
-                identificator = new Identificator(value,col,row,activation0.getDepthIndex());
-            }
-        }
-    }
+	private void merge(Identificator preIdentificator0, Activation activation0) {
+		Reference2D size = activation0.size();
+		Identificator identificator;
+		double value;
+		for (int row = 0; row < size.getRows(); row += 1) {
+			for (int col = 0; col < size.getCols(); col += 1) {
+				value = activation0.getValue(col, row);
+				identificator = new Identificator(col, row, activation0.getDepthIndex(), value, preIdentificator0);
+				this.matrix.add(new int[]{col,row}, new RetinotopicCognit(identificator,value));
+			}
+		}
+	}
+
+	void print() {
+		this.matrix.print();
+	}
 
 }

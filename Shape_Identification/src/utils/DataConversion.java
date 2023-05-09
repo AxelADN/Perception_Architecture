@@ -95,6 +95,7 @@ public class DataConversion {
 		int[] index = new int[2];
 		int i;
 		double[] data = new double[(int)mat0.total()];
+		mat0.convertTo(mat0, CvType.CV_64F);
 		mat0.get(0, 0, data);
 		for(int row=0; row<mat0.rows(); row+=1){
 			for(int col=0; col<mat0.cols(); col+=1){

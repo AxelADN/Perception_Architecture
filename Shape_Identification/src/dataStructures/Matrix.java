@@ -14,30 +14,32 @@ import org.opencv.core.Mat;
  */
 public class Matrix {
 
-    private Identificator preIdentificator;
-    private RetinotopicMatrix retinotopicMatrix;
-    private Activation mainActivation;
+	private Identificator preIdentificator;
+	private HashSet<RetinotopicMatrix> retinotopicMatrices;
+	private Activation mainActivation;
 
-    public Matrix() {
-        this.preIdentificator = new Identificator();
-        this.retinotopicMatrix = new RetinotopicMatrix();
-        this.mainActivation = new Activation();
-    }
+	public Matrix() {
+		this.preIdentificator = new Identificator();
+		this.retinotopicMatrices = new HashSet<>();
+		this.mainActivation = new Activation();
+	}
 
-    public Matrix(String preIdentificatorStr0, Mat mat0) {
-        this.preIdentificator = new Identificator(preIdentificatorStr0);
-        this.mainActivation = new Activation(mat0);
-        this.retinotopicMatrix = new RetinotopicMatrix(this.preIdentificator, this.mainActivation);
-    }
+	public Matrix(String path0, Mat mat0) {
+		this.retinotopicMatrices = new HashSet<>();
+		this.preIdentificator = new Identificator(path0);
+		this.mainActivation = new Activation(mat0);
+		HashSet<Activation> subActivationSet = this.mainActivation.getSubActivations();
+		for (Activation subActivation : subActivationSet) {
+			this.retinotopicMatrices.add(new RetinotopicMatrix(this.preIdentificator, subActivation));
 
-    void setWithMatData(String path0, Mat mat0) {
-        this.preIdentificator = new Identificator(path0);
-        HashSet<Activation> subActivationSet = this.mainActivation.getSubActivations();
-        for (Activation subActivation : subActivationSet) {
-            this.retinotopicMatrix = new RetinotopicMatrix(this.preIdentificator, subActivation);
-            
-        }
+		}
 
-    }
+	}
+
+	public void print() {
+		for(RetinotopicMatrix matrix : retinotopicMatrices){
+			matrix.print();
+		}
+	}
 
 }

@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class Array2D <T> implements Copyable{
 	
-	private HashMap<String,T> array2D;
+	private HashMap<Integer[],T> array2D;
 	private int rows;
 	private int cols;
 	
@@ -30,8 +30,8 @@ public class Array2D <T> implements Copyable{
 	}
 	
 	//for Copyable
-	public Array2D(HashMap<String,T> array2D0, int cols0, int rows0){
-		this.array2D = (HashMap<String,T>) array2D0.clone();
+	public Array2D(HashMap<Integer[],T> array2D0, int cols0, int rows0){
+		this.array2D = (HashMap<Integer[],T>) array2D0.clone();
 		this.cols = cols0;
 		this.rows = rows0;
 	}
@@ -42,20 +42,20 @@ public class Array2D <T> implements Copyable{
 		this.rows = size0[1];
 	}	
 	
-	public void add(int[] index, T object){
+	public void add(int[] index, T object) throws ArrayIndexOutOfBoundsException{
 		this.checkIndexBounds(index);
-		this.array2D.put(getIndexString(index), object);
+		this.array2D.put(this.getIndexIntegerWrapper(index), object);
 	}
 	
-	public T get(int[] index){
+	public T get(int[] index) throws NullPointerException{
 		this.checkIndexBounds(index);
 		this.checkEmptyness(index);
-		return this.array2D.get(this.getIndexString(index));
+		return this.array2D.get(this.getIndexIntegerWrapper(index));
 	}
 	
-	private void checkIndexBounds(int[] index){
-		if(index[0] >= cols || index[1] >= rows){
-			throw new ArrayIndexOutOfBoundsException("Rows or Cols out of bounds!");
+	private void checkIndexBounds(int[] index) throws ArrayIndexOutOfBoundsException{
+		if(index[0] >= this.cols || index[1] >= this.rows){
+			throw new ArrayIndexOutOfBoundsException("Rows or Cols out of bounds! --> cols: " + index[0] + ", rows: " + index[1]);
 		}
 	}
 	
@@ -63,15 +63,13 @@ public class Array2D <T> implements Copyable{
 		return this.array2D.isEmpty();
 	}
 
-	private String getIndexString(int[] index) {
-		String str = new String();
-		str += index[0] + "," + index[1];
-		return str;
+	private Integer[] getIndexIntegerWrapper(int[] index) {
+		return new Integer[]{index[0],index[1]};
 	}
 
-	public void checkEmptyness(int[] index) {
-		if(this.array2D.get(this.getIndexString(index)) == null){
-			throw new NullPointerException("Index points to null value!");
+	public void checkEmptyness(int[] index) throws NullPointerException{
+		if(this.array2D.get(this.getIndexIntegerWrapper(index)) == null){
+			throw new NullPointerException("Index points to null value! --> x: " + index[0] + ", y: " + index[1]);
 		}
 	}
 
@@ -83,5 +81,20 @@ public class Array2D <T> implements Copyable{
     public int[] size() {
         return new int[] {this.cols,this.rows};
     }
+
+	void print() {
+		String str = new String();
+		str += "[";
+		for(int i=0; i<this.rows; i+=0){
+			str+="[";
+			for(int j=0; j<this.cols; j+=1){
+				str += this.get(new int[]{cols,rows});
+				str += ",";
+			}
+			str+= "],\n";
+		}
+		str+="]";
+		System.out.println(str);
+	}
 	
 }
