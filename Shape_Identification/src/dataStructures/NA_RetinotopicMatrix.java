@@ -15,24 +15,24 @@ import java.util.logging.Logger;
  *
  * @author axeladn
  */
-public class RetinotopicMatrix {
+public class NA_RetinotopicMatrix {
 
-	private Array2D<RetinotopicCognit> matrix;
-	private Activation activationMatrix;
+	private Array2D<NA_RetinotopicCognit> matrix;
+	private NA_Activation activationMatrix;
 
-	public RetinotopicMatrix() {
+	public NA_RetinotopicMatrix() {
 		this.matrix = new Array2D<>();
-		this.activationMatrix = new Activation();
+		this.activationMatrix = new NA_Activation();
 	}
 
-	public RetinotopicMatrix(Identificator preIdentificator0, Activation activation0) {
+	public NA_RetinotopicMatrix(Identificator preIdentificator0, NA_Activation activation0) {
 		Reference2D size = activation0.size();
 		this.matrix = new Array2D<>(size.getCols(), size.getRows());
 		this.activationMatrix = activation0;
 		this.merge(preIdentificator0, activation0);
 	}
 
-	private void merge(Identificator preIdentificator0, Activation activation0) {
+	private void merge(Identificator preIdentificator0, NA_Activation activation0) {
 		Reference2D size = activation0.size();
 		Identificator identificator;
 		double value;
@@ -41,7 +41,7 @@ public class RetinotopicMatrix {
 				value = activation0.getValue(col, row);
 				identificator = new Identificator(col, row, activation0.getDepthIndex(), value, preIdentificator0);
 				//System.out.println("value: "+value);
-				this.matrix.add(new int[]{col, row}, new RetinotopicCognit(identificator, value));
+				this.matrix.add(new int[]{col, row}, new NA_RetinotopicCognit(identificator, value));
 				//System.out.println("value: "+this.matrix.get(new int[]{col,row}).getActivation());
 			}
 		}
@@ -79,12 +79,12 @@ public class RetinotopicMatrix {
 			writer.write(str);
 			writer.close();
 		} catch (IOException ex) {
-			Logger.getLogger(RetinotopicMatrix.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(NA_RetinotopicMatrix.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			try {
 				root.close();
 			} catch (IOException ex) {
-				Logger.getLogger(RetinotopicMatrix.class.getName()).log(Level.SEVERE, null, ex);
+				Logger.getLogger(NA_RetinotopicMatrix.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 		

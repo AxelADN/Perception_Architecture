@@ -4,9 +4,15 @@
  */
 package dataStructures;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import utils.ImageUtils;
 
 /**
  *
@@ -15,50 +21,66 @@ import org.opencv.core.Mat;
 public class Matrix {
 
 	private Identificator preIdentificator;
-	private HashSet<RetinotopicMatrix> retinotopicMatrices;
-	private HashMap<RetinotopicPatch,HashSet> retinotopicPatches;
-	private Activation mainActivation;
+	//private HashSet<RetinotopicMatrix> retinotopicMatrices;
+	private HashMap<RetinotopicPatch, Array2D> retinotopicPatches;
+	private Mat mainActivation;
 
 	public Matrix() {
 		this.preIdentificator = new Identificator();
-		this.retinotopicMatrices = new HashSet<>();
-		this.mainActivation = new Activation();
+		//this.retinotopicMatrices = new HashSet<>();
+		this.mainActivation = new Mat();
 	}
 
 	public Matrix(String path0, Mat mat0) {
-		this.retinotopicMatrices = new HashSet<>();
+		//this.retinotopicMatrices = new HashSet<>();
 		this.preIdentificator = new Identificator(path0);
-		this.mainActivation = new Activation(mat0);
-		HashSet<Activation> subActivationSet = this.mainActivation.getSubActivations();
+		this.mainActivation = mat0;
+		this.retinotopicPatches = new HashMap<>();
 		
-		for (Activation subActivation : subActivationSet) {
-			this.retinotopicMatrices.add(new RetinotopicMatrix(this.preIdentificator, subActivation));
+		Array2D<Mat> subActivationPerLevel;
+		for (int level = 1; level <= RetinotopicPatch.maxLevel; level += 1) {
+			RetinotopicPatch patch = new RetinotopicPatch(level);
+			subActivationPerLevel = new Array2D<>(patch.getSize().getArray());
+			Reference2D sizePatch = patch.getSize();
+			double rectX = 0;
+			double rectY = 0;
+			double rectW = 0;
+			double rectH = 0;
+			for (int j = 0; j < sizePatch.getSizeY(); j += 1) {
+				for (int i = 0; i < sizePatch.getSizeX(); i += 1) {
+					rectX = patch.getIndexPos(i, j).getFactorX() * this.mainActivation.cols();
+					rectY = patch.getIndexPos(i, j).getFactorY() * this.mainActivation.rows();
+					rectW = patch.getBlockSize() * this.mainActivation.cols();
+					rectH = patch.getBlockSize() * this.mainActivation.rows();
+					Rect block = new Rect(new double[]{rectX, rectY, rectW, rectH});
+					subActivationPerLevel.add(new int[]{i, j}, this.mainActivation.submat(block));
+				}
+			}
+			this.retinotopicPatches.put(patch, subActivationPerLevel);
 		}
 
 	}
-	
-	public void getPartitions(){
-		
-	}
-	
-	public void getPartitions( int initSize0, int finalSize0, int step0){
-		int chunkNum;
-		int currentSize;
-		int matNum = Math.floorDiv((finalSize0-initSize0),step0);
-		for(int n = 0; n<matNum; n+=1){
-			currentSize = initSize0 + (step0*n);
-			chunkNum = Math.floorDiv(mat0.cols(), currentSize);
-			for(int j=0; j<chunkNum; j+=1){
-				for(int i=0; i<chunkNum; i+=1){
-					
+
+	public void showImg(int level0) {
+		Identificator ID;
+		if (level0 < 0) {
+			for (RetinotopicPatch level : this.retinotopicPatches.keySet()) {
+				Array2D<Mat> matArray = this.retinotopicPatches.get(level);
+				for (int j = 0; j < matArray.size()[1]; j += 1) {
+					for (int i = 0; i < matArray.size()[0]; i += 1) {
+						ID = new Identificator(i, j, level.getLevel(), -1, this.preIdentificator);
+						ImageUtils.showImg(matArray.get(new int[]{i, j}), ID.toString());
+					}
 				}
 			}
-		} 
-	}
-
-	public void saveToFile() {
-		for(RetinotopicMatrix matrix : retinotopicMatrices){
-			matrix.saveToFile();
+		} else {
+			Array2D<Mat> matArray = this.retinotopicPatches.get(new RetinotopicPatch(level0));
+			for (int j = 0; j < matArray.size()[1]; j += 1) {
+				for (int i = 0; i < matArray.size()[0]; i += 1) {
+					ID = new Identificator(i, j, level0, -1, this.preIdentificator);
+					ImageUtils.showImg(matArray.get(new int[]{i, j}), ID.toString());
+				}
+			}
 		}
 	}
 

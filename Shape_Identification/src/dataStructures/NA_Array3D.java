@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author axeladn
  */
-public class Array3D<T> implements Copyable {
+public class NA_Array3D<T> implements Copyable {
 
 	private HashMap<Integer, Array2D> array3D;
 	private int rows;
@@ -19,7 +19,7 @@ public class Array3D<T> implements Copyable {
 	private int depth;
 	private int depthReference;
 
-	public Array3D(int cols0, int rows0, int depth0) {
+	public NA_Array3D(int cols0, int rows0, int depth0) {
 		this.array3D = new HashMap<>();
 		this.cols = cols0;
 		this.rows = rows0;
@@ -28,7 +28,7 @@ public class Array3D<T> implements Copyable {
 	}
 
 	//for Copyable
-	public Array3D(HashMap<Integer, Array2D> array3D0, int cols0, int rows0, int depth0, int depthReference0) {
+	public NA_Array3D(HashMap<Integer, Array2D> array3D0, int cols0, int rows0, int depth0, int depthReference0) {
 		this.array3D = new HashMap<>();
 		for (int index : array3D0.keySet()) {
 			this.array3D.put(index, array3D0.get(index));
@@ -39,7 +39,7 @@ public class Array3D<T> implements Copyable {
 		this.rows = rows0;
 	}
 
-	public Array3D() {
+	public NA_Array3D() {
 		this.array3D = new HashMap<>();
 		this.cols = 0;
 		this.depth = 0;
@@ -110,15 +110,15 @@ public class Array3D<T> implements Copyable {
 	}
 
 	@Override
-	public Array3D<T> copy() {
-		return new Array3D(this.array3D, this.rows, this.cols, this.depth, this.depthReference);
+	public NA_Array3D<T> copy() {
+		return new NA_Array3D(this.array3D, this.rows, this.cols, this.depth, this.depthReference);
 	}
 
-	public HashMap<Integer, Array3D> split() {
-		HashMap<Integer, Array3D> auxArrayMap = new HashMap<>();
-		Array3D<T> auxArray3D;
+	public HashMap<Integer, NA_Array3D> split() {
+		HashMap<Integer, NA_Array3D> auxArrayMap = new HashMap<>();
+		NA_Array3D<T> auxArray3D;
 		for (int i : this.array3D.keySet()) {
-			auxArray3D = new Array3D<>();
+			auxArray3D = new NA_Array3D<>();
 			auxArray3D.add(i, this.array3D.get(i));
 			auxArrayMap.put(i, auxArray3D);
 		}

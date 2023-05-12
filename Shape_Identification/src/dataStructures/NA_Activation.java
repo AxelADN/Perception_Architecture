@@ -8,6 +8,7 @@ import interfaces.Copyable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import utils.DataConversion;
@@ -16,36 +17,43 @@ import utils.DataConversion;
  *
  * @author axeladn
  */
-public class Activation implements Copyable {
+public class NA_Activation implements Copyable {
 
-	private Array3D<Double> activation;
+	private NA_Array3D<Double> activation;
+	private HashMap<List,Array2D> patchMap;
 	private Mat matPrimitive;
 	private int channels;
 
-	public Activation(Mat mat0) {
-		this.activation = new Array3D<>();
+	public NA_Activation(Mat mat0) {
+		this.activation = new NA_Array3D<>();
 		this.matPrimitive = mat0;
 		this.channels = mat0.channels();
 		this.setActivation();
 	}
 
 	//for Copyable
-	public Activation(Mat matPrimitive0, int channels0, Array3D<Double> activation0) {
+	public NA_Activation(Mat matPrimitive0, int channels0, NA_Array3D<Double> activation0) {
 		this.channels = channels0;
 		this.matPrimitive = matPrimitive0.clone();
 		this.activation = activation0;
 	}
 
-	public Activation() {
-		this.activation = new Array3D<>();
+	public NA_Activation() {
+		this.activation = new NA_Array3D<>();
 		this.channels = 0;
 		this.matPrimitive = new Mat();
 	}
 
-	private Activation(int channel0, Array3D<Double> subActivation) {
+	private NA_Activation(int channel0, NA_Array3D<Double> subActivation) {
 		this.channels = channel0;
 		this.activation = subActivation;
 		this.matPrimitive = null;
+	}
+
+	public NA_Activation(NA_Activation subActivation, RetinotopicPatch patch) {
+		this.channels = subActivation.getDepthIndex();
+		this.patchMap = new HashMap<>();
+		this.setPatch(subActivation, patch);
 	}
 
 	public final void setActivation() {
@@ -87,24 +95,23 @@ public class Activation implements Copyable {
 			k += 1;
 		}
 	}*/
-
 	public void print() {
 
 	}
 
 	@Override
-	public Activation copy() {
-		Activation activationAux = new Activation(this.matPrimitive, this.channels, this.activation);
+	public NA_Activation copy() {
+		NA_Activation activationAux = new NA_Activation(this.matPrimitive, this.channels, this.activation);
 		return activationAux;
 
 	}
 
-	public HashSet<Activation> getSubActivations() {
-		HashMap<Integer, Array3D> auxArray3D = this.activation.split();
-		Activation subActivation;
-		HashSet<Activation> subActivations = new HashSet<>();
+	public HashSet<NA_Activation> getSubActivations() {
+		HashMap<Integer, NA_Array3D> auxArray3D = this.activation.split();
+		NA_Activation subActivation;
+		HashSet<NA_Activation> subActivations = new HashSet<>();
 		for (int channel : auxArray3D.keySet()) {
-			subActivation = new Activation(channel, auxArray3D.get(channel));
+			subActivation = new NA_Activation(channel, auxArray3D.get(channel));
 			subActivations.add(subActivation);
 		}
 		return subActivations;
@@ -115,14 +122,42 @@ public class Activation implements Copyable {
 	}
 
 	public double getValue(int col0, int row0) {
-		try{
-		return this.activation.get(new int[]{col0, row0, this.channels});
-		}catch(NullPointerException ex){
+		try {
+			return this.activation.get(new int[]{col0, row0, this.channels});
+		} catch (NullPointerException ex) {
 			return Double.valueOf(0);
 		}
 	}
 
 	public int getDepthIndex() {
 		return this.channels;
+	}
+
+	private void setPatch(NA_Activation subActivation, RetinotopicPatch patch) {
+		Reference2D sizePatch = patch.getSize();
+		Array2D<Double> activity ;
+		for (int j = 0; j < sizePatch.getSizeY(); j += 1) {
+			for (int i = 0; i < sizePatch.getSizeX(); i += 1) {
+				List<Integer> index = new ArrayList<>();
+				index.add(i);
+				index.add(j);
+				Reference2D indexPos = patch.getIndexPos(i,j);
+				int blockSize = (int) Math.floor(patch.getBlockSize()*subActivation.size().getSizeX());
+				activity = this.getBoxActivation(subActivation,indexPos,blockSize);
+				this.patchMap.put(index, activity);
+			}
+		}
+	}
+
+	private Array2D getBoxActivation(NA_Activation subActivation, Reference2D indexPos, int blockSize) {
+		int x = indexPos.getX();
+		int y = indexPos.getY();
+		Array2D<Double> array2D = new Array2D<>(blockSize,blockSize);
+		for(int j=y; j<y+blockSize; j+=1){
+			for(int i=x; i<x+blockSize;i+=1){
+				array2D.add(new int[]{i,j}, subActivation.getValue(i, j));
+			}
+		}
+		return array2D;
 	}
 }

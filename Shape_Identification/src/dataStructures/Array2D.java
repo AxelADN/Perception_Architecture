@@ -37,6 +37,10 @@ public class Array2D <T> implements Copyable{
 		this.cols = cols0;
 		this.rows = rows0;
 	}
+
+	Array2D(int[] index) {
+		this(index[0],index[1]);
+	}
 	
 	public void setSize(int[] size0)
 	{

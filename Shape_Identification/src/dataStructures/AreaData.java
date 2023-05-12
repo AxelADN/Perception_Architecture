@@ -8,8 +8,10 @@ import config.ConfigFile;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 /**
  *
@@ -68,6 +70,10 @@ public class AreaData {
 			for (File dataFile : this.dataFilesTypeMap.get(dirType)) {
 				path = this.dataRootFile + dirType + "/" + dataFile.getName();
 				mat = Imgcodecs.imread(path, Imgcodecs.IMREAD_ANYCOLOR);
+				Imgproc.adaptiveThreshold(mat, mat, 255,
+					Imgproc.ADAPTIVE_THRESH_MEAN_C,
+					Imgproc.THRESH_BINARY, 13, 12);
+				Core.bitwise_not(mat, mat);
 				//Imgproc.resize(mat, mat, new Size(10,10));
 				//System.out.println("Ccahnnels: " + mat.channels());
 				rawMatData.put(path, mat);
@@ -83,17 +89,11 @@ public class AreaData {
 
 	}
 
-	public void saveToFile() {
-		for(String path : this.rawMatData.keySet()){
-			//ImageUtils.showImg(this.rawMatData.get(path), path);
-		}
-		for(Matrix matrix : this.matrices){
-			matrix.saveToFile();
-		}
-	}
+	public void showImg(int level0) {
 
-	public void extractChunkData() {
-		
+		for (Matrix matrix : this.matrices) {
+			matrix.showImg(level0);
+		}
 	}
 
 }

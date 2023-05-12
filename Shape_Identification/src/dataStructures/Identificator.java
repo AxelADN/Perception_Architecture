@@ -5,8 +5,10 @@
 package dataStructures;
 
 import interfaces.Copyable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import utils.Dictionary;
 
 /**
@@ -20,7 +22,7 @@ public class Identificator implements Copyable {
 	public static final String TYPE = "TYPE";
 	public static final String SUBTYPE = "SUBTYPE";
 	public static final String LOCATION = "LOCATION";
-	public static final String METRIC = "METRIC";
+	public static final String LEVEL = "LEVEL";
 	public static final String VALUE = "VALUE";
 	private static String X;
 	private static String Y;
@@ -59,12 +61,12 @@ public class Identificator implements Copyable {
 		this.idArray = new HashMap<>();
 	}
 
-	public Identificator(int x0, int y0, int z0, double value0, Identificator preIdentification0) {
+	public Identificator(int x0, int y0, int level0, double value0, Identificator preIdentification0) {
 		this();
-		HashMap<String,Integer> location = new HashMap<>();
-		location.put(Identificator.X, x0);
-		location.put(Identificator.Y, y0);
-		location.put(Identificator.Z, z0);
+		List<Integer> location = new ArrayList<>();
+		location.add(x0);
+		location.add(y0);
+		this.idArray.put(Identificator.LEVEL, level0);
 		this.idArray.put(Identificator.LOCATION, location);
 		this.idArray.put(Identificator.VALUE, value0);
 		this.idArray.put(Identificator.AREA, preIdentification0.getArea());
@@ -91,6 +93,7 @@ public class Identificator implements Copyable {
 		str += this.idArray.get(Identificator.AREA).toString() + "+";
 		str += this.idArray.get(Identificator.TYPE).toString() + "+";
 		str += this.idArray.get(Identificator.SUBTYPE).toString() + "+";
+		str += this.idArray.get(Identificator.LEVEL).toString() + "+";
 		str += this.idArray.get(Identificator.LOCATION).toString() + "+";
 		str += this.idArray.get(Identificator.VALUE).toString();
 		

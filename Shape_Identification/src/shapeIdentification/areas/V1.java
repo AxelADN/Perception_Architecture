@@ -7,7 +7,7 @@ package shapeIdentification.areas;
 import java.util.ArrayList;
 import java.util.Iterator;
 import dataStructures.AreaData;
-import dataStructures.Activation;
+import dataStructures.NA_Activation;
 import utils.Dictionary;
 
 /**
@@ -20,7 +20,7 @@ public class V1 {
 	private ArrayList<String> imgNames;
 	private Iterator currentImg;
 	private String rootFile;
-	private ArrayList<Activation> activations;
+	private ArrayList<NA_Activation> activations;
 	private Dictionary dict;
 
 	public V1() {
@@ -58,10 +58,9 @@ public class V1 {
 		storage.setPath(this.rootFile);
 		storage.setDataFileList();
 		storage.extractDataFromFileList();
-		storage.extractChunkData();
 		storage.setData();
 		
-		//storage.saveToFile();
+		storage.showImg(2);
 
 	}
 

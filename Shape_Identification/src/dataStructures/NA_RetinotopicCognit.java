@@ -8,12 +8,12 @@ package dataStructures;
  *
  * @author axeladn
  */
-public class RetinotopicCognit {
+public class NA_RetinotopicCognit {
 	
 	private Identificator identificator;
 	private final double activation;
 	
-	public RetinotopicCognit(Identificator identificator0, double activation0){
+	public NA_RetinotopicCognit(Identificator identificator0, double activation0){
 		this.activation = activation0;
 		this.identificator = identificator0;
 	}

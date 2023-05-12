@@ -4,6 +4,7 @@
  */
 package dataStructures;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,24 +21,39 @@ public class RetinotopicPatch {
 
 	static {
 		RetinotopicPatch.maxLevel = 4;
-		RetinotopicPatch.minRetinotopicSize = 1 / Math.pow(2, RetinotopicPatch.maxLevel-1);
+		RetinotopicPatch.minRetinotopicSize = 1 / Math.pow(2, RetinotopicPatch.maxLevel - 1);
 	}
 
 	private final int level;
 	private Reference2D size;
+	private double blockSize;
 	private HashMap<List, List> map;
 
 	public RetinotopicPatch(int level0) {
-		double plainSize = 1 / Math.pow(2, level0-1);
-		1/plainSize
-		this.size = new Reference2D(plainSize,plainSize);
-		for(int i=0; i<this.size.getFactorX();i+=1){
-			for(int j=0; j<this.size.getFactorY();j+=1){
-				
+		double blockSize = 1 / Math.pow(2, level0 - 1);
+		this.map = new HashMap<>();
+		int jj = 0;
+		int ii = 0;
+		for (double j = 0; j < 1; j += blockSize) {
+			ii = 0;
+			for (double i = 0; i < 1; i += blockSize) {
+				List<Integer> index = new ArrayList<>();
+				List<Double> pos = new ArrayList<>();
+				index.add(ii);
+				index.add(jj);
+				pos.add(i);
+				pos.add(j);
+				this.map.put(index, pos);
+				ii += 1;
 			}
+			jj += 1;
 		}
+		this.size = new Reference2D(ii, jj);
+		this.blockSize = blockSize;
 		if (level0 > RetinotopicPatch.maxLevel) {
 			this.level = RetinotopicPatch.maxLevel;
+		} else {
+			this.level = level0;
 		}
 	}
 
@@ -65,6 +81,26 @@ public class RetinotopicPatch {
 		}
 		final RetinotopicPatch other = (RetinotopicPatch) obj;
 		return this.level == other.level;
+	}
+
+	public Reference2D getSize() {
+		return this.size;
+	}
+	
+	public Reference2D getIndexPos(int i0, int j0){
+		List<Integer> index = new ArrayList<>();
+		index.add(i0);
+		index.add(j0);
+		List<Double> pos = this.map.get(index);
+		return new Reference2D(pos.get(0),pos.get(1));
+	}
+	
+	public double getBlockSize(){
+		return this.blockSize;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 
 }
