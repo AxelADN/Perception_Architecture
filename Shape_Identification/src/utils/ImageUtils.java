@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.Rect;
 import org.opencv.imgcodecs.Imgcodecs;
 
 /**
@@ -27,12 +28,14 @@ public class ImageUtils {
 
 	
 	
+	
+	
 	public static void showImg(Mat img, String ID) {
 		try {
 			JFrame frame = new JFrame();
 			Random rand = new Random();
 			Mat receivedImg = img;
-			System.out.println(receivedImg);
+			//System.out.println(receivedImg);
 			MatOfByte matOfByte = new MatOfByte();
 			Imgcodecs.imencode(".png", receivedImg, matOfByte);
 			byte[] byteArray = matOfByte.toArray();

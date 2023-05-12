@@ -58,9 +58,10 @@ public class V1 {
 		storage.setPath(this.rootFile);
 		storage.setDataFileList();
 		storage.extractDataFromFileList();
+		storage.extractChunkData();
 		storage.setData();
 		
-		storage.printAll();
+		//storage.saveToFile();
 
 	}
 

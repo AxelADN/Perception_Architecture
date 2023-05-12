@@ -5,14 +5,11 @@
 package dataStructures;
 
 import config.ConfigFile;
-import control.Log;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
-import utils.ImageUtils;
 
 /**
  *
@@ -71,7 +68,8 @@ public class AreaData {
 			for (File dataFile : this.dataFilesTypeMap.get(dirType)) {
 				path = this.dataRootFile + dirType + "/" + dataFile.getName();
 				mat = Imgcodecs.imread(path, Imgcodecs.IMREAD_ANYCOLOR);
-				System.out.println("Ccahnnels: " + mat.channels());
+				//Imgproc.resize(mat, mat, new Size(10,10));
+				//System.out.println("Ccahnnels: " + mat.channels());
 				rawMatData.put(path, mat);
 			}
 		}
@@ -85,13 +83,17 @@ public class AreaData {
 
 	}
 
-	public void printAll() {
+	public void saveToFile() {
 		for(String path : this.rawMatData.keySet()){
-			ImageUtils.showImg(this.rawMatData.get(path), path);
+			//ImageUtils.showImg(this.rawMatData.get(path), path);
 		}
 		for(Matrix matrix : this.matrices){
-			matrix.print();
+			matrix.saveToFile();
 		}
+	}
+
+	public void extractChunkData() {
+		
 	}
 
 }

@@ -11,8 +11,6 @@ import java.util.HashSet;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import utils.DataConversion;
-import utils.IDUtils;
-import utils.ImageUtils;
 
 /**
  *
@@ -51,9 +49,6 @@ public class Activation implements Copyable {
 	}
 
 	public final void setActivation() {
-		int i;
-		int cols = this.matPrimitive.cols();
-		int rows = this.matPrimitive.rows();
 		ArrayList<Mat> splitedMat = new ArrayList<>();
 		Core.split(this.matPrimitive, splitedMat);
 		Array2D<Double> array2D;

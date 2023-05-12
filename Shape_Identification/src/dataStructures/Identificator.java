@@ -5,13 +5,9 @@
 package dataStructures;
 
 import interfaces.Copyable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import utils.Dictionary;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import utils.DataConversion;
 
 /**
  *

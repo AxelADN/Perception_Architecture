@@ -5,7 +5,9 @@
 package dataStructures;
 
 import interfaces.Copyable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -13,7 +15,7 @@ import java.util.HashMap;
  */
 public class Array2D <T> implements Copyable{
 	
-	private HashMap<Integer[],T> array2D;
+	private HashMap<List<Integer>,T> array2D;
 	private int rows;
 	private int cols;
 	
@@ -30,8 +32,8 @@ public class Array2D <T> implements Copyable{
 	}
 	
 	//for Copyable
-	public Array2D(HashMap<Integer[],T> array2D0, int cols0, int rows0){
-		this.array2D = (HashMap<Integer[],T>) array2D0.clone();
+	public Array2D(HashMap<List<Integer>,T> array2D0, int cols0, int rows0){
+		this.array2D = (HashMap<List<Integer>,T>) array2D0.clone();
 		this.cols = cols0;
 		this.rows = rows0;
 	}
@@ -63,8 +65,11 @@ public class Array2D <T> implements Copyable{
 		return this.array2D.isEmpty();
 	}
 
-	private Integer[] getIndexIntegerWrapper(int[] index) {
-		return new Integer[]{index[0],index[1]};
+	private List<Integer> getIndexIntegerWrapper(int[] index) {
+		List<Integer> listIndex = new ArrayList<>();
+		listIndex.add(index[0]);
+		listIndex.add(index[1]);
+		return listIndex;
 	}
 
 	public void checkEmptyness(int[] index) throws NullPointerException{
@@ -88,7 +93,9 @@ public class Array2D <T> implements Copyable{
 		for(int i=0; i<this.rows; i+=0){
 			str+="[";
 			for(int j=0; j<this.cols; j+=1){
-				str += this.get(new int[]{cols,rows});
+				String value = this.get(new int[]{i,j}).toString() ;
+				str += ("0.0".equals(value) ? "" : value);
+				//System.out.println(this.get(new int[]{i,j}).toString());
 				str += ",";
 			}
 			str+= "],\n";

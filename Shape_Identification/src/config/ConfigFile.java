@@ -4,6 +4,7 @@
  */
 package config;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +13,8 @@ import java.util.HashMap;
  * @author axeladn
  */
 public class ConfigFile {
+
+	public static String SAVE_FILE = "/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/saved_files/";
 	
 	public static enum Areas{
 		DEFAULT_AREA,V1,V2,hV4,

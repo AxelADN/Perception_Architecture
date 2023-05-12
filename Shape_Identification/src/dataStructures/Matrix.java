@@ -16,6 +16,7 @@ public class Matrix {
 
 	private Identificator preIdentificator;
 	private HashSet<RetinotopicMatrix> retinotopicMatrices;
+	private HashMap<RetinotopicPatch,HashSet> retinotopicPatches;
 	private Activation mainActivation;
 
 	public Matrix() {
@@ -29,16 +30,35 @@ public class Matrix {
 		this.preIdentificator = new Identificator(path0);
 		this.mainActivation = new Activation(mat0);
 		HashSet<Activation> subActivationSet = this.mainActivation.getSubActivations();
+		
 		for (Activation subActivation : subActivationSet) {
 			this.retinotopicMatrices.add(new RetinotopicMatrix(this.preIdentificator, subActivation));
-
 		}
 
 	}
+	
+	public void getPartitions(){
+		
+	}
+	
+	public void getPartitions( int initSize0, int finalSize0, int step0){
+		int chunkNum;
+		int currentSize;
+		int matNum = Math.floorDiv((finalSize0-initSize0),step0);
+		for(int n = 0; n<matNum; n+=1){
+			currentSize = initSize0 + (step0*n);
+			chunkNum = Math.floorDiv(mat0.cols(), currentSize);
+			for(int j=0; j<chunkNum; j+=1){
+				for(int i=0; i<chunkNum; i+=1){
+					
+				}
+			}
+		} 
+	}
 
-	public void print() {
+	public void saveToFile() {
 		for(RetinotopicMatrix matrix : retinotopicMatrices){
-			matrix.print();
+			matrix.saveToFile();
 		}
 	}
 
