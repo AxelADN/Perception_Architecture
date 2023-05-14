@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/Array2D.java</file>
-            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/RetinotopicPatch.java</file>
-            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/NA_Array3D.java</file>
+            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/Identificator.java</file>
             <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/AreaData.java</file>
+            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/utils/ImageUtils.java</file>
             <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/Matrix.java</file>
-            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/dataStructures/NA_RetinotopicMatrix.java</file>
             <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/shapeIdentification/areas/V1.java</file>
+            <file>file:/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/src/config/ConfigFile.java</file>
         </group>
     </open-files>
 </project-private>

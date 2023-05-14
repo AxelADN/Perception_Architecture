@@ -4,14 +4,9 @@
  */
 package dataStructures;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 import utils.ImageUtils;
 
 /**
@@ -31,9 +26,10 @@ public class Matrix {
 		this.mainActivation = new Mat();
 	}
 
-	public Matrix(String path0, Mat mat0) {
+	public Matrix(String excentricity0, String path0, Mat mat0) {
 		//this.retinotopicMatrices = new HashSet<>();
 		this.preIdentificator = new Identificator(path0);
+                this.preIdentificator.setExcentricity(excentricity0);
 		this.mainActivation = mat0;
 		this.retinotopicPatches = new HashMap<>();
 		

@@ -24,6 +24,7 @@ public class Identificator implements Copyable {
 	public static final String LOCATION = "LOCATION";
 	public static final String LEVEL = "LEVEL";
 	public static final String VALUE = "VALUE";
+        public static final String EXCENTRICITY = "EXCENTRICITY";
 	private static String X;
 	private static String Y;
 	private static String Z;
@@ -66,6 +67,7 @@ public class Identificator implements Copyable {
 		List<Integer> location = new ArrayList<>();
 		location.add(x0);
 		location.add(y0);
+                this.idArray.put(Identificator.EXCENTRICITY, preIdentification0.getExcentricity());
 		this.idArray.put(Identificator.LEVEL, level0);
 		this.idArray.put(Identificator.LOCATION, location);
 		this.idArray.put(Identificator.VALUE, value0);
@@ -90,6 +92,7 @@ public class Identificator implements Copyable {
 	public String toString(){
 		String str = new String();
 		str += this.id + "+";
+                str += this.idArray.get(Identificator.EXCENTRICITY).toString() + "+";
 		str += this.idArray.get(Identificator.AREA).toString() + "+";
 		str += this.idArray.get(Identificator.TYPE).toString() + "+";
 		str += this.idArray.get(Identificator.SUBTYPE).toString() + "+";
@@ -105,6 +108,14 @@ public class Identificator implements Copyable {
 		Identificator identificator = new Identificator(this.id, this.idArray);
 		return identificator;
 	}
+
+        public void setExcentricity(String excentricity0) {
+                this.idArray.put(Identificator.EXCENTRICITY, excentricity0);
+        }
+
+        public String getExcentricity() {
+                return (String) this.idArray.get(Identificator.EXCENTRICITY);
+        }
 
 
 }

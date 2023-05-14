@@ -27,7 +27,7 @@ public class V1 {
 		imgNames = new ArrayList<>();
 		currentImg = imgNames.iterator();
 
-		rootFile = "/home/axeladn/Documents/Tesis_Doctorado/Preprocessed_DataSet/DataSet4/V1/";
+		rootFile = "/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Sensory_Data_Set/V1/";
 		activations = new ArrayList<>();
 		dict = new Dictionary("V1");
 
@@ -58,6 +58,7 @@ public class V1 {
 		storage.setPath(this.rootFile);
 		storage.setDataFileList();
 		storage.extractDataFromFileList();
+                storage.setExcentricity();
 		storage.setData();
 		
 		storage.showImg(2);

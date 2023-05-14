@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class ConfigFile {
 
 	public static String SAVE_FILE = "/home/axeladn/Documents/Tesis_Doctorado/Perception_System/Perception_Architecture/Shape_Identification/saved_files/";
+        public static double MIN_PIXELS_FACTOR = 0.05;
 	
 	public static enum Areas{
 		DEFAULT_AREA,V1,V2,hV4,
