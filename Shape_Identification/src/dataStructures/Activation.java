@@ -4,6 +4,7 @@
  */
 package dataStructures;
 
+import java.util.Objects;
 import org.opencv.core.Mat;
 
 /**
@@ -52,5 +53,27 @@ public class Activation {
     public Activation withoutMat() {
         return new Activation(this.mainID);
     }
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 43 * hash + Objects.hashCode(this.mainID);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Activation other = (Activation) obj;
+		return Objects.equals(this.mainID, other.mainID);
+	}
     
 }

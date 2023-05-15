@@ -6,6 +6,7 @@ package dataStructures;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  *
@@ -13,13 +14,13 @@ import java.util.HashSet;
  */
 public class Graph <T> {
     
-    private final HashMap<T,HashSet<T>> adjacencyMap;
+    private final HashMap<T,HashSet<List<Activation>>> adjacencyMap;
     
     public Graph(){
         adjacencyMap = new HashMap<>();
     }
     
-    public void merge(Graph){
+    public void add(Graph graph0){
         
     }
     

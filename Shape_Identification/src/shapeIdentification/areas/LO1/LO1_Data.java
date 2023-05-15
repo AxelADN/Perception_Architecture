@@ -20,11 +20,11 @@ import utils.Dictionary;
 public class LO1_Data {
 
     private HashSet<Dictionary> dictionaries;
-    private Graph<Graph> totalHypergraph;
+    private Graph<Graph> totalGraph;
 
     public LO1_Data() {
         this.dictionaries = new HashSet<>();
-        this.totalHypergraph = new Graph<>();
+        this.totalGraph = new Graph<>();
     }
 
     public void setDict(Dictionary dict0) {
@@ -53,6 +53,7 @@ this.buildAdjacencyByProximityH(activationMatrix0.get(new int[]{i,j}),activation
 
     private void buildAdjacencyByProximityH(Activation currentActivation,ArrayList<Activation> activationArray0) {
         HashSet<Activation> adjacentActivations = new HashSet<>();
+		HashMap<Activation,HashSet<ArrayList<Activation>>> subGraph
         for (int j = 0; j < activationArray0.size(); j += 1) {
             if()
         }

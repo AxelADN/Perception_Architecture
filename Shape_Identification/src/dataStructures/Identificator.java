@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import utils.Dictionary;
 
 /**
@@ -123,5 +124,42 @@ public class Identificator implements Copyable {
     public Reference2D getLocation() {
         return new Reference2D((List<Integer>) this.idArray.get(Identificator.LOCATION));
     }
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (int) (this.id ^ (this.id >>> 32));
+		hash = 31 * hash +  this.idArray.get(Identificator.EXCENTRICITY).hashCode();
+		hash = 31 * hash +  this.idArray.get(Identificator.AREA).hashCode();
+		hash = 31 * hash +  this.idArray.get(Identificator.LEVEL).hashCode();
+		hash = 31 * hash +  this.idArray.get(Identificator.SUBTYPE).hashCode();
+		hash = 31 * hash +  this.idArray.get(Identificator.TYPE).hashCode();
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Identificator other = (Identificator) obj;
+		if (this.id != other.id) {
+			return false;
+		}
+		if(this.idArray.get(Identificator.EXCENTRICITY) != other.idArray.get(Identificator.EXCENTRICITY)){
+			return false;
+		}
+		if(this.idArray.get(Identificator.EXCENTRICITY) != other.idArray.get(Identificator.EXCENTRICITY)){
+			return false;
+		}
+	}
+	
+	
 
 }
