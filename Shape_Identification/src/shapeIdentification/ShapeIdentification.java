@@ -8,7 +8,7 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
-import shapeIdentification.areas.V1;
+import shapeIdentification.areas.V1.V1;
 import utils.ImageUtils;
 
 /**
@@ -25,7 +25,7 @@ public class ShapeIdentification {
 
 		//ImageUtils.showImg(Mat.zeros(new Size(200,200), CvType.CV_8U), "01010101");
 		V1 v1 = new V1();
-		v1.Populate();
+		
 
 	}
 
